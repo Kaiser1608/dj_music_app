@@ -26,32 +26,32 @@ class HomeScreen extends StatelessWidget {
     {
       "title": "Drum Pad",
       "color": Colors.red,
-      "icon": Icons.album,
+      "image": "assets/images/drumpad.png",
     },
     {
       "title": "Ringtone Cutter",
       "color": Colors.purple,
-      "icon": Icons.content_cut,
+      "image": "assets/images/cutter.png",
     },
     {
       "title": "Audio Mixer",
       "color": Colors.orange,
-      "icon": Icons.equalizer,
+      "image": "assets/images/mixer.png",
     },
     {
       "title": "Sound Merger",
       "color": Colors.yellow,
-      "icon": Icons.headphones,
+      "image": "assets/images/merger.png",
     },
     {
       "title": "My Library",
       "color": Colors.pink,
-      "icon": Icons.library_music,
+      "image": "assets/images/library.png",
     },
     {
       "title": "Setting",
       "color": Colors.green,
-      "icon": Icons.settings,
+      "image": "assets/images/setting.png",
     },
   ];
 
@@ -62,7 +62,6 @@ class HomeScreen extends StatelessWidget {
 
     if (result != null) {
       String fileName = result.files.single.name;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Selected: $fileName"),
@@ -77,28 +76,29 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          // Background image
           Positioned.fill(
             child: Image.asset(
               'assets/images/backgroundpic.jpg',
               fit: BoxFit.cover,
             ),
           ),
-
+          // Dark overlay
           Positioned.fill(
             child: Container(
               color: Colors.black.withOpacity(0.65),
             ),
           ),
-
+          // Content
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   buildTitle(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   buildMainCard(context),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   buildGrid(context),
                 ],
               ),
@@ -109,6 +109,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // ─── TITLE ROW ────────────────────────────────────────────
   Widget buildTitle() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,7 +125,7 @@ class HomeScreen extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.amber.withOpacity(0.2),
+            color: Colors.amber.withOpacity(0.3),
             shape: BoxShape.circle,
           ),
           child: const Icon(
@@ -137,60 +138,79 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // ─── MAIN DJ MIXER CARD ───────────────────────────────────
  Widget buildMainCard(BuildContext context) {
   return GestureDetector(
     onTap: () {
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (_) => const DJMixerScreen(),
-        ),
+        MaterialPageRoute(builder: (_) => const DJMixerScreen()),
       );
     },
-    child: Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.3),
-        border: Border.all(color: Colors.cyanAccent, width: 2),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    child: Stack(
+      clipBehavior: Clip.none, // cho phép ảnh tràn ra ngoài
+      children: [
+        Container(
+          width: double.infinity,
+          height: 150,
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.3),
+            border: Border.all(color: Colors.cyanAccent, width: 2),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Row(
               children: const [
-                Text(
-                  "DJ Mixer",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Mix your music with advanced tools.",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "DJ Mixer",
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      SizedBox(
+                        width: 180,
+                        child: Text(
+                          "Mix your music with advanced tools,\neffects, and sound equalizer.",
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          const Icon(
-            Icons.music_note,
-            color: Colors.cyanAccent,
-            size: 50,
+        ),
+
+        // Ảnh DJ tràn ra ngoài box
+        Positioned(
+          right: -20,   // âm để tràn ra ngoài
+          top: -25,  
+          height: 200,   // âm để nhô lên trên
+          child: Image.asset(
+            'assets/images/djpic.png',
+            height: 180,
+            fit: BoxFit.contain,
           ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }
 
+  // ─── MENU GRID ────────────────────────────────────────────
   Widget buildGrid(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
@@ -198,9 +218,9 @@ class HomeScreen extends StatelessWidget {
       itemCount: menuItems.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        childAspectRatio: 1.1,
+        mainAxisSpacing: 14,
+        crossAxisSpacing: 14,
+        childAspectRatio: 1.05,
       ),
       itemBuilder: (context, index) {
         final item = menuItems[index];
@@ -211,37 +231,43 @@ class HomeScreen extends StatelessWidget {
                 item["title"] == "Sound Merger") {
               pickAudioFile(context);
             }
-
             if (item["title"] == "Setting") {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const SettingScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const SettingScreen()),
               );
             }
           },
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.25),
-              border: Border.all(color: item["color"], width: 2),
-              borderRadius: BorderRadius.circular(16),
+              color: Colors.black.withOpacity(0.3),
+              border: Border.all(color: item["color"] as Color, width: 2),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  item["icon"],
-                  color: item["color"],
-                  size: 36,
+                // Image
+                Image.asset(
+                  item["image"] as String,
+                  width: 72,
+                  height: 72,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    Icons.image_not_supported,
+                    color: item["color"] as Color,
+                    size: 50,
+                  ),
                 ),
                 const SizedBox(height: 10),
+                // Title
                 Text(
-                  item["title"],
+                  item["title"] as String,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],

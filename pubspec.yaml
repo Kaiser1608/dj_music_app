@@ -25,3 +25,10 @@ flutter:
 
   assets:
     - assets/images/backgroundpic.jpg
+    - assets/images/djpic.png
+    - assets/images/drumpad.png
+    - assets/images/cutter.png
+    - assets/images/mixer.png
+    - assets/images/merger.png
+    - assets/images/library.png
+    - assets/images/setting.png
