@@ -28,7 +28,7 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/dj_music_app.git
+git clone https://github.com/Kaiser1608/dj_music_app.git
 
 # 2. Navigate into the project
 cd dj_music_app
